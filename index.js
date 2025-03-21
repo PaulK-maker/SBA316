@@ -1,5 +1,5 @@
 
-
+//array of objects for the menu links 
 var menuLinks = [
   { text: 'Home', href: '#home' },
   { text: 'Estimator', href: '#form-section' },
@@ -7,6 +7,8 @@ var menuLinks = [
   { text: 'About', href: '#about' },
   { text: 'Contact', href: '#contact' }
 ];
+
+// objects with material prices 
 const materialPrices = {
   tiles: {
     ceramic: 2.0,
@@ -18,6 +20,8 @@ const materialPrices = {
     premium: 3500
   }
 };
+
+//event listener for the DOM
 document.addEventListener('DOMContentLoaded', () => {
   setupNavigation();
   setupStyles();
@@ -26,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   displayFeatures();
 });
 
+// function to create and display the table
 function createCostTable(items) {
   const container = document.querySelector('#cost-table-container');
   if (!container) {
@@ -33,13 +38,13 @@ function createCostTable(items) {
     return;
   }
 
-  // Clear previous table
+  // Clearing the previous table
   container.innerHTML = '';
 
   const table = document.createElement('table');
   table.className = 'cost-table';
 
-  //Create header
+  //iterate to Create the table header
   const headerRow = table.insertRow();
   const headers = ['Item', 'Cost', 'Quantity', 'Total Cost'];
   for (let i = 0; i < headers.length; i++) {
@@ -49,7 +54,7 @@ function createCostTable(items) {
     headerRow.appendChild(th);
   }
 
-  // Create rows
+  // iterate to Create table rows
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
     const row = table.insertRow();
@@ -58,19 +63,20 @@ function createCostTable(items) {
     row.insertCell().textContent = item.quantity;
     row.insertCell().textContent = `$${item.totalCost || 0}`;
   }
-
+// Append the table to the container
   container.appendChild(table);
 }
-
+// function used to make the calculations as per user needs 
 function calculateCosts(size, type, includePlumbing, includeElectrical) {
   const baseMultiplier = type === 'half bath' ? 1 : type === 'full bath' ? 1.5 : 2;
   const sizeMultiplier = Math.max(1, size / 50);
 
+  // various items costs 
   const items = [
     { name: 'Shower', baseCost: 225, maxCost: 1240 },
     { name: 'Toilet', baseCost: 150, maxCost: 800 }
   ];
-
+// create cost for each item
   const result = [];
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
@@ -85,7 +91,7 @@ function calculateCosts(size, type, includePlumbing, includeElectrical) {
   }
   return result;
 }
-///
+//function setting event listener for the forms elements
 function setupFormListeners() {
   const typeSelect = document.querySelector('#bathroom-type');
   const sizeInput = document.querySelector('#bathroom-size');
@@ -104,19 +110,21 @@ function setupFormListeners() {
     });
   }
 }
-///
+// function to update the cost table 
 
 function updateTable() {
+  // get the current form values 
   const size = parseFloat(document.querySelector('#bathroom-size').value) || 0;
   const type = document.querySelector('#bathroom-type').value;
   const includePlumbing = document.querySelector('#include-plumbing').checked;
   const includeElectrical = document.querySelector('#include-electrical').checked;
 
+  // calculate costs and create the table
   const items = calculateCosts(size, type, includePlumbing, includeElectrical);
   createCostTable(items);
 }
 
-///
+//function to set up smooth navigation
 
 function setupNavigation() {
   const anchors = document.querySelectorAll('a[href^="#"]');
@@ -131,7 +139,7 @@ function setupNavigation() {
     });
   }
 }
-
+//function to set up the styling for the main element 
 function setupStyles() {
   const mainEl = document.querySelector("main");
   const topMenuEl = document.getElementById("top-menu");
@@ -150,9 +158,10 @@ function setupStyles() {
   subMenuEl.classList.add("flex-around");
   subMenuEl.style.position = "absolute";
   subMenuEl.style.top = "0";
+  subMenuEl.style.backgroundColor="blue"
 }
 
-
+// function to display bsthroom features checkbox
 function displayFeatures() {
   const featureListDiv = document.querySelector('#feature-list');
   featureListDiv.innerHTML = '';
@@ -160,7 +169,9 @@ function displayFeatures() {
   const features = [
     { id: 'eco-friendly', name: 'Eco-Friendly Materials' },
     { id: 'heated-floor', name: 'Heated Flooring' },
-    { id: 'smart-shower', name: 'Smart Shower System' }
+    { id: 'smart-shower', name: 'Smart Shower System' },
+    { id: 'smart-lighting', name: 'light System' },
+    { id: 'smart-warming', name: 'Smart warming System' }
   ];
 
   features.forEach(feature => {
@@ -175,28 +186,33 @@ function displayFeatures() {
     checkbox.addEventListener('change', () => {
       localStorage.setItem(feature.id, checkbox.checked);
     });
-
+//append feature check box
     label.append(checkbox, ` ${feature.name}`);
     featureListDiv.appendChild(label);
     featureListDiv.appendChild(document.createElement('br'));
   });
 }
-
+// validate email
 function validateEmail(email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
-
+// validate phone number 10 digits 
 function validatePhone(phone) {
-  const regex = /^\d{10}$/; // Assumes 10-digit phone number
+  const regex = /^\d{10}$/; 
   return regex.test(phone);
 }
-
+// validate only numbers 
 function validateBathroomSize(size) {
-  const regex = /^\d+$/; // Only numbers allowed
+  const regex = /^(2[5-9]|[3-9]\d|100)$/;
   return regex.test(size);
 }
-
+// function to show alert mesasages
+function showAlert(message, type) {
+  const alertContainer = document.getElementById('alertContainer');
+  alertContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+}
+// function to save values selected   
 function saveInputs() {
 const nameValue = document.querySelector('#name').value;
 const emailValue = document.querySelector('#email').value;
@@ -223,34 +239,7 @@ if (!validateBathroomSize(bathroomSizeValue) && bathroomSizeValue != '') {
   localStorage.setItem('bathroomSize', bathroomSizeValue);
   localStorage.setItem('bathroomType', bathroomTypeValue);
 
-  //
-  function saveInputs() {
-      const nameValue = document.querySelector('#name').value;
-      const emailValue = document.querySelector('#email').value;
-      const phoneValue = document.querySelector('#phone').value;
-      const bathroomSizeValue = document.querySelector('#bathroom-size').value;
-      const bathroomTypeValue = document.querySelector('#bathroom-type').value;
-    
-      if (!validateEmail(emailValue) && emailValue != '') {
-          alert('Please enter a valid email address.');
-          return;
-      }
-      if (!validatePhone(phoneValue) && phoneValue != '') {
-          alert('Please enter a valid phone number (10 digits).');
-          return;
-      }
-      if (!validateBathroomSize(bathroomSizeValue) && bathroomSizeValue != '') {
-          alert('Please enter a valid Bathroom Size (Only number).');
-          return;
-      }
-    
-        localStorage.setItem('name', nameValue);
-        localStorage.setItem('email', emailValue);
-        localStorage.setItem('phone', phoneValue);
-        localStorage.setItem('bathroomSize', bathroomSizeValue);
-        localStorage.setItem('bathroomType', bathroomTypeValue);
-    }
-    
+  
     function loadInputs() {
         document.querySelector('#name').value = localStorage.getItem('name') || '';
         document.querySelector('#email').value = localStorage.getItem('email') || '';
@@ -262,7 +251,7 @@ if (!validateBathroomSize(bathroomSizeValue) && bathroomSizeValue != '') {
 
 
 
-
+// commented code that failed 
 
 // function setupStyles(){
 //   const mainE1 = document.querySelector("main");
@@ -305,9 +294,4 @@ if (!validateBathroomSize(bathroomSizeValue) && bathroomSizeValue != '') {
 //       `
 //   },
 //   {
-//       title: "Cost Breakdown Explanation",
-//       description: "Understand the factors that influence renovation costs...",
-//       content: "<p>Costs depend on size, materials, and labor.</p>"  // Example
-//   },
-//   // Add more features here
-// ]
+// 

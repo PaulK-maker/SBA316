@@ -4,12 +4,15 @@
     padding: 50px 20px;
     text-align: center;
 }
-
+:root {
+  --main-bg: none;
+  --sub-menu-bg:white;
+  
 #form-section{
-background-color: grey;
+background-color: rgb(219, 126, 126);
 padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: none;
 }
 
 #features{
@@ -17,7 +20,7 @@ padding: 30px;
     justify-content: space-around;
     flex-wrap: wrap;
     padding: 40px 20px;
-    background-color: #e9e9e9;
+    background-color: lightgray;
 }
 
 section{
@@ -25,9 +28,25 @@ section{
     margin: 30px;
 
 }
+#renovation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: lightgray;
+}
 
-#form-section{
-background-color: antiquewhite;
+#renovation-form input[type="text"],
+#renovation-form input[type="email"],
+#renovation-form input[type="tel"],
+#renovation-form input[type="number"],
+#renovation-form select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #413b3b;
+  width: 100%;
+  max-width: 400px;
+  font-size: 16px;
+  
 }
 
 .navbar ul {
@@ -83,12 +102,12 @@ background-color: antiquewhite;
   #top-menu> a {
     display: block;
     color: white;
-    text-align: center;
+    text-align: flex-round;
     padding: 14px 16px;
     text-decoration: none;
   }
   #top-menu> a:hover {
-    background-color: #ddd;
+    background-color: #e2cdcd;
     color: black;;
   }
   #sub-menu {
@@ -96,7 +115,7 @@ background-color: antiquewhite;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(100, 98, 98, 0.2);
     z-index: 1;
   }
   #sub-menu a {
@@ -119,7 +138,7 @@ background-color: antiquewhite;
     margin-bottom: 10px;
   }
   .cost-table{
-    width: 100;
+    width:100%;
     border-collapse: collapse;
     margin-bottom: 10px
   }
@@ -134,5 +153,28 @@ background-color: antiquewhite;
   }
   .cost-table tr:hover {
     background-color: #f5f5f5;
-    background-color:red;
+    background-color:rgb(185, 73, 73);
   }
+}
+.alert {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #a39194;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
